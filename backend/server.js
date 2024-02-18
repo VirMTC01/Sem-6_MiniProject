@@ -21,6 +21,6 @@ io.on('connection', (socket) => {
     })
 });
 
-app.use( cors({ origin: "http://localhost:3000", method: ["GET", "POST"] }) )
+app.use( cors({ origin: "http://localhost:3000", method: ["GET", "POST"] }) );
 
 httpServer.listen(PORT, () => console.log('Server is listening on port number 8000.'));
