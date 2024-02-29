@@ -1,34 +1,21 @@
-import { io } from "socket.io-client";
 import { useState, useEffect } from "react";
-import Editor from '@monaco-editor/react';
+import "./components/Home/Home";
+import "./components/Editor/Editor";
+import "./components/QuickUse/QuickUse";
 
 
 function App() {
-  const [socketId, setSocketId] = useState(null);
-
-  useEffect(() => {
-    const socket = io("http://localhost:8000");
-
-    socket.on("connect", () => {
-      console.log("connected", socket.id);
-      setSocketId(socket.id);
-    });
-
-     
-    return () => {
-      socket.disconnect();
-    };
-  }, []); 
+  
 
   return (
-    <div>
-      {socketId ? (
-        <p>Socket ID: {socketId}</p>
-      ) : (
-        <p>Connecting to socket...</p>
-      )}
-     <Editor height="90vh" defaultLanguage="javascript" defaultValue="// some comment" />;
-    </div>
+    <>
+
+    <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/QuickUse" element={<QuickUse />} />
+        <Route exact path="/Editor" element={<Editor />} />
+      </Routes>
+    </>
   );
 }
 

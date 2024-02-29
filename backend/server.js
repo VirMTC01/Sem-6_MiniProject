@@ -1,6 +1,5 @@
 const express = require("express");
 const http = require("http");
-const Server = require("socket.io") ;
 const cors = require( "cors");
 
 const PORT = 8000;
@@ -12,7 +11,7 @@ const httpServer = http.createServer(app);
 
 const io = require("socket.io")(httpServer, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "http://localhost:3000", // Frontend URL
       methods: ["GET", "POST"]
     }
 });
