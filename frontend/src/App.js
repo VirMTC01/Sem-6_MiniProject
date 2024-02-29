@@ -1,5 +1,7 @@
 import { io } from "socket.io-client";
 import { useState, useEffect } from "react";
+import Editor from '@monaco-editor/react';
+
 
 function App() {
   const [socketId, setSocketId] = useState(null);
@@ -25,6 +27,7 @@ function App() {
       ) : (
         <p>Connecting to socket...</p>
       )}
+     <Editor height="90vh" defaultLanguage="javascript" defaultValue="// some comment" />;
     </div>
   );
 }

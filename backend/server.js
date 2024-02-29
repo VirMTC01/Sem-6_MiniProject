@@ -15,7 +15,9 @@ const io = require("socket.io")(httpServer, {
       origin: "http://localhost:3000",
       methods: ["GET", "POST"]
     }
-  });
+});
+
+
 io.on('connection', (socket) => {
     console.log("New Socket : ", socket.id)
     
