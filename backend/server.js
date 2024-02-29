@@ -1,26 +1,37 @@
-import express from "express";
-import { createServer } from "http";
-import { Server } from "socket.io";
-import cors from "cors";
-const PORT = 8000;
-const app = express();
-const httpServer = createServer(app);
-const io = new Server(httpServer);
+const express = require("express");
+const http = require("http");
+const Server = require("socket.io") ;
+const cors = require( "cors");
 
+const PORT = 8000;
+
+const app = express();
+const httpServer = http.createServer(app);
+
+ 
+
+const io = require("socket.io")(httpServer, {
+    cors: {
+      origin: "http://localhost:3000",
+      methods: ["GET", "POST"]
+    }
+  });
 io.on('connection', (socket) => {
     console.log("New Socket : ", socket.id)
-
+    
     socket.on('code_change', (msg)=>{
-        socket.broadcast.emit("distributing_code_change", ()=>{
-            
-        })
+        socket.broadcast.emit("distributing_code_change", msg);
     })
-
+     
+    
     socket.on('disconnect', ()=>{
         console.log("Disconnected with ", socket.id);
     })
 });
 
-app.use( cors({ origin: "http://localhost:3000", method: ["GET", "POST"] }) );
+app.get('/', (req, res)=> {
+    res.json({"Value": 10})
+});
 
-httpServer.listen(PORT, () => console.log('Server is listening on port number 8000.'));
+app.use(cors( {origin:"*", credentials:true}));
+httpServer.listen(PORT, () => console.log(`Server is listening on port number ${PORT}.`));
