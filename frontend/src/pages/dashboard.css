@@ -1,0 +1,19 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(7, 7, 72);
+    color: aliceblue;
+    justify-content: center;
+    align-items: center;
+
+}
+#main > div{
+    width: 30vw;
+    margin: 2%;
+}
+input{
+    width: 20vw;
+
+}

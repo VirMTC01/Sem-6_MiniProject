@@ -1,0 +1,14 @@
+Heloo & Welcome to TE Comps Engg. Sem-6 Mini Project
+Online Project WorkPlace
+A Productive Platform for COders & DeveLopers to Work In CollaBration Smoothly!!!
+
+
+development
+
+backend-node
+frontend-react
+
+backend 
+
+-npm init
+-npm i express

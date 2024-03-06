@@ -1,0 +1,12 @@
+.editor{
+    display: flex;
+    flex-direction: row !important;
+    height: auto;
+    width: auto;
+    justify-content: space-around;
+}
+#op{
+    background-color: antiquewhite;
+    height: 20vh;
+    width: 25vw;
+}
