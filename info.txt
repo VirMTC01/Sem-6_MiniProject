@@ -12,3 +12,8 @@ backend
 
 -npm init
 -npm i express
+-npm i axios
+frontend
+
+
+-npm i react-router-dom
