@@ -1,33 +1,21 @@
-import { io } from "socket.io-client";
 import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import Home from "./components/Home/Home";
+import QuickUse from "./components/QuickUse/QuickUse";
+import QuickUseEditor from "./components/QuickUseEditor/QuickUseEditor";
+
 
 function App() {
-  const [socketId, setSocketId] = useState(0);
-
-  useEffect(() => {
-    const socket = io("http://localhost:8000");
-    socket.on("connect", () => {
-      console.log("connected", socket.id);
-      setSocketId(socket.id);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
-
-
-
-
-
-
   
+
   return (
     <>
 
-
-
+    <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/QuickUse" element={<QuickUse />} />
+        <Route exact path="/QuickUseEditor" element={<QuickUseEditor />} />
+    </Routes>
     </>
   );
 }
