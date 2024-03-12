@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
   socket.join(roomid);
 
   if (!roomEditorContent[roomid]) {
-    roomEditorContent[roomid] = "// Start coding...";
+    roomEditorContent[roomid] = "// Start coding..." 
   }
 
   socket.emit("initialEditorContent", roomEditorContent[roomid]);
