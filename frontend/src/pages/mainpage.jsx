@@ -48,7 +48,7 @@ function App() {
 
   const handleSubmit = () => {
     // Make a POST request to your backend to compile the code
-    axios.post('http://localhost:1000/compile', { code })
+    axios.post('http://localhost:8000/compile', { code })
       .then(response => {
         const { data } = response;
         setOutput(data.output);

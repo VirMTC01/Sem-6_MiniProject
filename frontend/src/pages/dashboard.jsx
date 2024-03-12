@@ -1,25 +1,24 @@
 import React from "react";
-import './dashboard.css';
+import "./dashboard.css";
 import { NavLink } from "react-router-dom";
 
-function page(){
-
+function page() {
   return (
-    <> <div class="main">
-       <h1>Dashboard!</h1>
-       <div>
+    <>
+      <div class="main">
+        <h1>Dashboard!</h1>
+        <div>
           <p>Room ID</p>
           <input type="text" />
           <p>User Name</p>
-          <input type="text"/>
-       </div>
-       <button>
-        <NavLink to={'/mainpage '}>Enter!</NavLink>
+          <input type="text" />
+        </div>
+        <button>
+          <NavLink to={"/mainpage"}>Enter!</NavLink>
         </button>
-       
-       </div>
+      </div>
     </>
   );
-};
+}
 
 export default page;

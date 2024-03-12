@@ -1,12 +1,11 @@
 import React from "react";
-import './landingpage.css';
 import { NavLink } from "react-router-dom";
+import './landingpage.css';
 
 function page() {
 
   return (
     <>
-    {/* <h1>Homepage!!!!</h1> */}
      <div>
        
 
