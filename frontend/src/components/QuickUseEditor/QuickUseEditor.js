@@ -31,7 +31,7 @@ function QuickUseEditor() {
   const [fontSize, setFontSize] = useState(14); 
   const [editorContent, setEditorContent] = useState("// Start coding...");
   const location = useLocation();
-  const { username = "Guest", roomid = "Unknown" } = location.state || {};
+  const { username , roomid } = location.state || {};
   const editorRef = useRef(null);
   const socketRef = useRef(null);
 
@@ -76,6 +76,8 @@ function QuickUseEditor() {
   return (
     <div className="quick-use-editor-container">
       <h2 className="editor-title">Welcome to QuickUseEditor</h2>
+      <p>Username : {username}</p>
+      <p>Room ID : {roomid}</p>
       <div className="editor-options">
         <div className="editor-option">
           <label htmlFor="language">Language:</label>
