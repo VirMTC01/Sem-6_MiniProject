@@ -1,38 +1,54 @@
 const express = require("express");
 const http = require("http");
-const cors = require( "cors");
+const cors = require("cors");
 
 const PORT = 8000;
 
 const app = express();
 const httpServer = http.createServer(app);
 
- 
-
 const io = require("socket.io")(httpServer, {
-    cors: {
-      origin: "http://localhost:3000", // Frontend URL
-      methods: ["GET", "POST"]
-    }
+  cors: {
+    origin: "http://localhost:3000", // Frontend URL
+    methods: ["GET", "POST"],
+  },
 });
 
+let connectedSockets = [];
+let roomEditorContent = {}; // Store editor content for each room
 
-io.on('connection', (socket) => {
-    console.log("New Socket : ", socket.id)
-    
-    socket.on('code_change', (msg)=>{
-        socket.broadcast.emit("distributing_code_change", msg);
-    })
-     
-    
-    socket.on('disconnect', ()=>{
-        console.log("Disconnected with ", socket.id);
-    })
+io.on("connection", (socket) => {
+  const { username, roomid } = socket.handshake.query;
+  console.log({ username, roomid });
+  connectedSockets.push(socket.id);
+  console.log("Total Connected Sockets: ", connectedSockets);
+
+  socket.join(roomid);
+
+  if (!roomEditorContent[roomid]) {
+    roomEditorContent[roomid] = "// Start coding...";
+  }
+
+  socket.emit("initialEditorContent", roomEditorContent[roomid]);
+
+  socket.on("codeChange", (msg) => {
+    roomEditorContent[roomid] = msg;
+
+    io.to(roomid).emit("distributeCodeChange", msg);
+  });
+
+  socket.on("disconnect", () => {
+    connectedSockets = connectedSockets.filter((item) => item !== socket.id);
+    console.log("Total Connected Sockets: ", connectedSockets);
+    socket.leave(roomid);
+  });
 });
 
-app.get('/', (req, res)=> {
-    res.json({"Value": 10})
+app.get("/", (req, res) => {
+  res.json({ Value: 10 });
 });
 
-app.use(cors( {origin:"*", credentials:true}));
-httpServer.listen(PORT, () => console.log(`Server is listening on port number ${PORT}.`));
+app.use(cors({ origin: "*", credentials: true }));
+httpServer.listen(PORT, () =>
+  console.log(`Server is listening on port number ${PORT}.`)
+);

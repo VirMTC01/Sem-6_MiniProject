@@ -1,0 +1,52 @@
+ 
+.editor-container {
+    height: 100vh;
+    background-color: #1e1e1e;
+}
+
+.code-editor {
+    border: none !important;
+    font-family: 'SF Mono', 'Fira Code', 'Menlo', monospace;
+    font-size: 14px;
+    color: #d4d4d4;
+    background-color: #1e1e1e !important;
+    height: 100%;
+}
+
+.code-editor .monaco-editor .margin {
+    width:  50px !important;  
+} 
+.custom-editor {
+    font-size: 16px;  
+  }
+   
+  .custom-editor .monaco-editor .view-overlays {
+    background-image: repeating-linear-gradient(transparent 0px, transparent 23px, #ddd 24px);
+  }
+  .quick-use-editor-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .editor-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .editor-options {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .editor-option {
+    margin-right: 20px;
+  }
+  
+  .custom-editor {
+    height: calc(100vh - 200px);
+  }
+  
+  /* You can add more styles as needed */
+  

@@ -1,38 +1,42 @@
 import "./QuickUse.css";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react"; 
-
-
-
-function handleSocketConnection(socketId, setSocketId, navigation) { 
-  const socket = io("http://localhost:8000");
-
-  socket.on("connect", () => {
-    console.log("connected", socket.id);
-    setSocketId(socket.id);
-    console.log("1", socket.id)
-    console.log("2", socketId)
-    navigation("/QuickUseEditor", {state: {socketId } });
-  });
-
-  return () => {
-    socket.disconnect();
-  }; 
-}
-
+import { useState, useEffect } from "react";
 
 function QuickUse() {
   const navigation = useNavigate();
-  const [socketId, setSocketId] = useState(null); 
+
+  function handleSocketConnection() { 
+    let username = document.querySelector("#username").value;
+    let roomid = document.querySelector("#roomid").value;
+
+    const socket = io("http://localhost:8000", {
+      query: {
+        username: username,
+        roomid: roomid,
+      } 
+    });
+
+    socket.on("connect", () => {
+      console.log("connected", socket.id);
+      navigation(`/QuickUseEditor?roomid=${roomid}`, {state: { username, roomid }});
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }
 
   return (
     <>
-      <label htmlFor="username">Name</label>
-      <input type="text" id="username" />
-      <label htmlFor="roomid">Room ID</label>
-      <input type="text" id="roomid" />
-      <button onClick={() => handleSocketConnection(socketId, setSocketId, navigation)}>Join Room</button>
+    <div className="parent_container_quick_use">
+      <label htmlFor="username">Name</label> <input type="text" id="username" /><br />
+      <label htmlFor="roomid">Room ID</label> <input type="text" id="roomid" /><br />
+      <button onClick={() => handleSocketConnection()} id="join-room-button">
+        {" "}
+        Join Room{" "}
+      </button>
+      </div>
     </>
   );
 }
