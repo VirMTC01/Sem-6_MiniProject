@@ -36,7 +36,7 @@ function QuickUseEditor() {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    socketRef.current = io("http://localhost:8000", { query: { username, roomid } });
+    socketRef.current = io("https://sem-6-miniproject-backend.onrender.com:8000", { query: { username, roomid } });
 
     socketRef.current.on("initialEditorContent", (content) => {
       setEditorContent(content);
