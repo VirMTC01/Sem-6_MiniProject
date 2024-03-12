@@ -92,7 +92,12 @@
 const express = require('express');
 const app = express();
 const axios = require('axios');
+const cors = require('cors');
 
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST']
+}))
 app.use(express.json());
 
 const JUDGE0_API_KEY = 'ef617f9a4bmsh2c3fc6f141abf99p14dcfcjsn9346e9656508';
@@ -132,8 +137,7 @@ app.post('/compile', async (req, res) => {
     res.json({ output });
   } catch (error) {
     console.error('Error:', error);
-    document.write(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.json({ error: 'Internal server error' });
   }
 });
 
@@ -165,7 +169,7 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 1000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
