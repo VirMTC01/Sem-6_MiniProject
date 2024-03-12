@@ -9,7 +9,7 @@ const httpServer = http.createServer(app);
 
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "http://localhost:3000", // Frontend URL
+    origin: "https://sem-6-miniproject.onrender.com", // Frontend URL
     methods: ["GET", "POST"],
   },
 });
