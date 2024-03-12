@@ -11,7 +11,9 @@ function handleSocketConnection(socketId, setSocketId, navigation) {
   socket.on("connect", () => {
     console.log("connected", socket.id);
     setSocketId(socket.id);
-    navigation("/QuickUseEditor", {state: {socketID: socket.id} });
+    console.log("1", socket.id)
+    console.log("2", socketId)
+    navigation("/QuickUseEditor", {state: {socketId } });
   });
 
   return () => {
