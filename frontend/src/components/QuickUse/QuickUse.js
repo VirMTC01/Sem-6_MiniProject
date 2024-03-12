@@ -10,7 +10,7 @@ function QuickUse() {
     let username = document.querySelector("#username").value;
     let roomid = document.querySelector("#roomid").value;
 
-    const socket = io("https://sem-6-miniproject-backend.onrender.com:8000", {
+    const socket = io("https://sem-6-miniproject-backend.onrender.com", {
       query: {
         username: username,
         roomid: roomid,
