@@ -30,39 +30,66 @@
 //            </div>
 //        </div>
 //        </>
-    
+
 //   );
 // };
 
 // export default mainpage;
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+// import { text } from "express";
+// const bodyParser = require("body-parser");
 
 function App() {
-  const [code, setCode] = useState('');
-  const [output, setOutput] = useState('');
-
+  const [code, setCode] = useState("");
+  const [output, setOutput] = useState("");
+  const [lang , setLang] = useState('');
+  // let id = "";
   const handleCodeChange = (event) => {
     setCode(event.target.value);
-  };
+        console.log(code);
 
-  const handleSubmit = () => {
+  };
+  const handleLangChange = (event) => {
+    setLang(event.target.value);
+    console.log(lang);
+  };
+  const handleSubmit = async () => {
     // Make a POST request to your backend to compile the code
-    axios.post('http://localhost:1000/compile', { code })
-      .then(response => {
-        const { data } = response;
-        setOutput(data.output);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+    const response = await axios.post("http://localhost:5000/compile", {
+      code,
+      lang,
+    });
+    try {
+      if (response.data.status) {
+        setOutput(response.data.output);
+      }
+    } catch (error) {
+if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.error("Server responded with error:", error.response.data);
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error("No response received from server:", error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.error("Error setting up request:", error.message);
+    }    }
   };
 
   return (
     <div>
       <h1>Compilation</h1>
       <div>
-        <label htmlFor="code">Enter your C code:</label>
+        <label>Enter Lang id:</label>
+        <input
+          type={"number"}
+          value={lang}
+          onChange={handleLangChange}
+          placeholder={"enter lang code eg 48-c 71-python"}
+        />
+        <label htmlFor="code">Enter your code:</label>
         <textarea
           id="code"
           value={code}

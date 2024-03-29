@@ -7,7 +7,6 @@
 // // app.set('views', path.join(__dirname, 'views'))
 // // app.use(express.static(path.join(__dirname, 'public')))
 
-
 // const handleCompile = (code) => {
 //     let formData = {
 //       language_id: 48,
@@ -74,7 +73,6 @@
 //     }
 // };
 
-
 // app.get('/', (req, res) => {
 //     let code = `#include <stdio.h>
 
@@ -89,34 +87,39 @@
 // app.listen(1000, () => {
 //     console.log("LISTENING ON PORT 1000 ! ");
 // });
-const express = require('express');
+const express = require("express");
 const app = express();
-const axios = require('axios');
+const axios = require("axios");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+
+app.use(cors());
 
 app.use(express.json());
 
-const JUDGE0_API_KEY = 'ef617f9a4bmsh2c3fc6f141abf99p14dcfcjsn9346e9656508';
+const JUDGE0_API_KEY = "ef617f9a4bmsh2c3fc6f141abf99p14dcfcjsn9346e9656508";
 
 // Route to handle code compilation
-app.post('/compile', async (req, res) => {
+app.post("/compile", async (req, res) => {
   try {
-    const { code } = req.body;
+    const { code, id } = req.body;
 
     // Configure the Judge0 API endpoint
-    const judge0Url = 'https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&fields=*';
+    const judge0Url =
+      "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&fields=*";
 
     // Prepare the data for the submission
     const formData = {
-      language_id: 48, // Language ID for C
-      source_code: Buffer.from(code).toString('base64'),
-      stdin: Buffer.from('1').toString('base64') // Example standard input
+      language_id: id, // Language ID for C
+      source_code: Buffer.from(code).toString("base64"),
+      stdin: Buffer.from("1").toString("base64"), // Example standard input
     };
 
     // Configure the request headers
     const headers = {
-      'Content-Type': 'application/json',
-      'X-RapidAPI-Key': JUDGE0_API_KEY,
-      'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+      "Content-Type": "application/json",
+      "X-RapidAPI-Key": JUDGE0_API_KEY,
+      "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
     };
 
     // Make a POST request to the Judge0 API
@@ -129,11 +132,11 @@ app.post('/compile', async (req, res) => {
     const output = await checkStatus(token);
 
     // Send the output back to the client
-    res.json({ output });
+    res.json({ status: true, output: output });
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     document.write(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -142,8 +145,8 @@ const checkStatus = async (token) => {
   const judge0Url = `https://judge0-ce.p.rapidapi.com/submissions/${token}?fields=*`;
 
   const headers = {
-    'X-RapidAPI-Key': JUDGE0_API_KEY,
-    'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+    "X-RapidAPI-Key": JUDGE0_API_KEY,
+    "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
   };
 
   let statusId;
@@ -153,19 +156,19 @@ const checkStatus = async (token) => {
     statusId = response.data.status?.id;
 
     // Wait for 5 seconds before checking again
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 5000));
   } while (statusId === 1 || statusId === 2); // 1: Processing, 2: In Queue
 
   // Once the submission is processed, return the output
   return response.data.stdout;
 };
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
+app.get("/", (req, res) => {
+  res.send("Hello World");
 });
 
 // Start the server
-const PORT = process.env.PORT || 1000;
+const PORT = 1000;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
