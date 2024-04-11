@@ -1,49 +1,12 @@
-// import React from "react";
-// import './mainpage.css';
 
-// function mainpage(){
-
-//   return (
-//       <>
-//        {/* <h1>MainPage!</h1> */}
-//                <h1>Editor</h1>
-//        <div class="main editor">
-
-//            <div id="lft">
-//            <div id="lang">
-//             <p>Select Code Lang!</p>
-//            <select >
-//               <option value={10}>C</option>
-//               <option value={10}>C++</option>
-//               <option value={10}>python</option>
-//               <option value={10}>java</option>
-
-//            </select>
-//            </div>
-//            <textarea cols={100} rows={80}></textarea>
-//            </div>
-//            <div id="rght">
-//             <p>Input</p>
-//              <textarea cols={40} rows={10}></textarea>
-//             <p>Output</p>
-//               <div id="op"></div>
-//            </div>
-//        </div>
-//        </>
-
-//   );
-// };
-
-// export default mainpage;
 import React, { useState } from "react";
 import axios from "axios";
-// import { text } from "express";
-// const bodyParser = require("body-parser");
 
 function App() {
-  const [code, setCode] = useState("");
-  const [output, setOutput] = useState("");
-  const [lang , setLang] = useState('');
+  const [code, setCode] = useState("Program Code");
+  const [output, setOutput] = useState("Output");
+  const [lang , setLang] = useState('lang id');
+  const [input , setInput]=useState('');
   // let id = "";
   const handleCodeChange = (event) => {
     setCode(event.target.value);
@@ -54,11 +17,16 @@ function App() {
     setLang(event.target.value);
     console.log(lang);
   };
+  const handleInputChange = (event) => {
+    setInput(event.target.value);
+    console.log(input);
+  };
   const handleSubmit = async () => {
     // Make a POST request to your backend to compile the code
     const response = await axios.post("http://localhost:5000/compile", {
       code,
       lang,
+      input,
     });
 
     try {
@@ -98,6 +66,14 @@ if (error.response) {
           rows={10}
           cols={50}
           placeholder="Enter your C code here..."
+        />
+      </div>
+      <div>
+        <textarea
+          rows={10}
+          cols={25}
+          value={input}
+          onChange={handleInputChange}
         />
       </div>
       <div>
