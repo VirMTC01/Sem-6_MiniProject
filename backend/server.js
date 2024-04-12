@@ -24,7 +24,7 @@ app.post("/compile", async (req, res) => {
     let options = {
       method: "POST",
       url: 'https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&fields=*',
-      // params: { base64_encoded: "true", fields: "*" },
+      params: { base64_encoded: "true", fields: "*" },
       headers: {
         "content-type": "application/json",
         "Content-Type": "application/json",
