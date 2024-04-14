@@ -21,7 +21,7 @@ const languages = [
 const themes = ["vs", "vs-dark", "hc-black", "light", "kimbie-dark"];
 
 function QuickUseEditor() {
-  const location = useLocation();
+  const location = useLocation(); 
   const { username = "Guest", roomid = "Unknown" } = location.state || {};
 
   const [language, setLanguage] = useState("javascript");
@@ -32,13 +32,12 @@ function QuickUseEditor() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
 
+ 
   const editorRef = useRef(null);
   const socketRef = useRef(null);
 
-  useEffect(() => {
-    socketRef.current = io("http://localhost:8000", {
-      query: { username, roomid },
-    });
+  useEffect(() => {  
+    socketRef.current = io("https://sem-6-miniproject-backend.onrender.com", { query: { username, roomid } }); 
 
     socketRef.current.on("initialEditorContent", (content) => {
       setEditorContent(content);
@@ -105,7 +104,7 @@ function QuickUseEditor() {
     }
   };
 
-  return (
+  return ( 
     <>
       <div id="conatiner">
         <div className="quick-use-editor-container">
@@ -160,6 +159,7 @@ function QuickUseEditor() {
               onChange={handleCodeChange}
             />
           </div>
+ 
         </div>
 
         <div id="compilation_section"> 

@@ -10,7 +10,7 @@ const JUDGE0_API_KEY = "ef617f9a4bmsh2c3fc6f141abf99p14dcfcjsn9346e9656508";
 
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "http://localhost:3000", // Frontend URL
+    origin: "https://sem-6-miniproject.onrender.com", // Frontend URL
     methods: ["GET", "POST"],
   },
 });
