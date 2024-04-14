@@ -79,7 +79,7 @@ function QuickUseEditor() {
   };
 
   const handleSubmit = async () => { 
-    const response = await axios.post("https://sem-6-miniproject-backend.onrender.com /compile", {
+    const response = await axios.post("https://sem-6-miniproject-backend.onrender.com/compile", {
       editorContent,
       lang,
       input 
