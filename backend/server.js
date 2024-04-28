@@ -1,29 +1,48 @@
 const express = require("express");
+const app = express();
 const http = require("http");
+const httpServer = http.createServer(app);  
 const cors = require("cors"); 
 const axios = require("axios");
+const mongoose = require("mongoose");
+const user = require("./models/user");
 const PORT = 8000;
-const app = express();
-const httpServer = http.createServer(app);
 
 const JUDGE0_API_KEY = "ef617f9a4bmsh2c3fc6f141abf99p14dcfcjsn9346e9656508";                                                                                              
 
+
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "https://sem-6-miniproject.onrender.com", // Frontend URL
+    // origin: "https://sem-6-miniproject.onrender.com", // Frontend URL
+    origin: "http://localhost:3000", // Frontend URL
     methods: ["GET", "POST"],
   },
 });
 
 
+mongoose
+  .connect(
+    "mongodb+srv://yashlodhi1703:Ya%40171003@cluster0.iacbiar.mongodb.net/codeAlong"
+  )
+  .then(() => {
+    console.log(" ");
+    console.log("|| MongoDB CONNECTION OPEN ||");
+    console.log(" ");
+  })
+  .catch((err) => {
+    console.log("OH NO ! ERROR !");
+    console.log(err);
+  });
+
+
+
+app.use(express.json({limit:"150mb"}));
+app.use(express.urlencoded({ extended: true, limit:"150mb"}));
 app.use(cors({ origin: "*", credentials: true }));  
-app.use(express.json());
 
 
 let connectedSockets = [];
 let roomEditorContent = {}; // Store editor content for each room
-
-
 
 
 io.on("connection", (socket) => {
@@ -59,12 +78,90 @@ io.on("connection", (socket) => {
 
 
 
+
+
 app.get("/", (req, res) => {
   res.json({ Value: 10 });
 });
 
 
 
+app.post("/login", async (req, res) => {
+
+  console.log("Login");
+  console.log(req.body);
+  let { username, password } = req.body;
+
+  try {
+    user.find({ name: username })
+      .then(async (data) => {
+        if (data.length) {
+            if(data[0].password===password){
+
+                res.json({msg: "User Found", isError: false, username: username});
+            }
+            else{
+                res.json({msg: "Incorrect Password !", isError: true});
+            }
+        }
+        else{
+            res.json({msg: "No user found !", isError: true});
+          }
+        })
+        .catch((e)=>{
+          console.log(e)
+          res.json({msg: "Error! Please try again !", isError: true});
+        })
+      }
+
+  catch(e){
+    console.log(e);
+    res.json({msg: "Server couldn't connect to database! Please try again later !", isError: true});
+  }
+
+});
+
+
+
+app.post("/signup", async (req, res) => {
+
+  console.log("SignUp");
+  console.log(req.body);
+  let { username, password } = req.body;
+
+  try {
+    user.find({ name: username })
+      .then(async (data) => {
+        if (data.length) {
+          console.log("USERNAME ALREADY TAKEN: ", data);
+          res.json({ msg: "Username already taken !" , isError: true});
+        }
+        else {
+          const newUser = new user({ name: username, password: password });
+          await newUser.save()
+          .then((a) => {
+            console.log(a);
+            res.json({ msg: "User successfully registered! Please login!" , isError: false});
+          })
+          .catch((e) => {
+              res.json({ msg: "Registration unsuccesfull! Please try again!" , isError: true});
+              console.log(e);
+            });
+          }
+        })
+        .catch((e) => {
+        res.json({ msg: "Registration unsuccesfull! Please try again!" , isError: true});
+        console.log(e);
+      });
+
+    } 
+    
+  catch(e) {
+    res.json({ msg: "Server couldn't connect to database! Please try again later!" , isError: true});
+    console.log(e);
+  }
+
+});
 
 
 // Route to handle code compilation
@@ -108,6 +205,7 @@ app.post("/compile", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 // Function to check the status of the submission
 const checkStatus = async (token, res) => {
