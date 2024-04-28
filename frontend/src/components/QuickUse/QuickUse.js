@@ -1,3 +1,4 @@
+import BACKEND_URL from "../config";
 import "./QuickUse.css";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +11,7 @@ function QuickUse() {
     let username = document.querySelector("#username").value;
     let roomid = document.querySelector("#roomid").value;
 
-    const socket = io("https://sem-6-miniproject-backend.onrender.com", {
+    const socket = io(BACKEND_URL, {
       query: {
         username: username,
         roomid: roomid,
@@ -19,7 +20,7 @@ function QuickUse() {
 
     socket.on("connect", () => {
       console.log("connected", socket.id);
-      navigation(`/QuickUseEditor?roomid=${roomid}`, {state: { username, roomid }});
+      navigation(`/quickUseEditor?roomid=${roomid}`, {state: { username, roomid }});
     });
 
     return () => {

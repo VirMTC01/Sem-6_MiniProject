@@ -1,3 +1,4 @@
+import BACKEND_URL from "../config";
 import React, { useState, useRef, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 import { useLocation } from "react-router-dom";
@@ -37,7 +38,7 @@ function QuickUseEditor() {
   const socketRef = useRef(null);
 
   useEffect(() => {  
-    socketRef.current = io("https://sem-6-miniproject-backend.onrender.com", { query: { username, roomid } }); 
+    socketRef.current = io(BACKEND_URL, { query: { username, roomid } }); 
 
     socketRef.current.on("initialEditorContent", (content) => {
       setEditorContent(content);
@@ -79,7 +80,7 @@ function QuickUseEditor() {
   };
 
   const handleSubmit = async () => { 
-    const response = await axios.post("https://sem-6-miniproject-backend.onrender.com/compile", {
+    const response = await axios.post(`${BACKEND_URL}/compile`, {
       editorContent,
       lang,
       input 

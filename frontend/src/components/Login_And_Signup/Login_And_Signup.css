@@ -1,0 +1,81 @@
+h1 {
+  color: rgb(0, 110, 255);
+  font-size: 2.1rem;
+  margin: 3em 0.5rem 0em;
+}
+
+.login_signup {
+  margin: 5rem auto;
+  display: flex;
+  justify-content: center;
+  max-width: 90%;
+}
+
+.login_signup > div {
+  border: 2px solid rgb(0, 110, 255);
+  background-color: white;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  padding: 4rem;
+}
+.login_signup > div h1 {
+  padding: 0;
+  margin: 0 0 1rem 0;
+  font-size: 2.5rem;
+}
+
+.name_pass {
+  margin: 2.25rem 0;
+}
+
+.name_pass label {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+.name_pass input {
+  width: 80%;
+  height: 1.75rem;
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  background-color: white;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+}
+
+.login_signup button {
+  font-size: 1.5rem;
+  border: 1px solid rgb(255, 255, 255);
+  color: white;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  background-color: rgb(0, 110, 255);
+  transition: 0.25s ease;
+}
+
+.login_signup button:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  box-shadow: 0px 5px 10px rgb(80, 80, 80);
+}
+
+.login_signup p {
+  font-size: 1.25rem;
+}
+
+.login_signup p {
+  margin-top: 3rem;
+}
+
+#errorMsg {
+  color: red;
+  font-size: 1.25rem;
+}
+#successMsg {
+  color: green;
+  font-size: 1.25rem;
+}
