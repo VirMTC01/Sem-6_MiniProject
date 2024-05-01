@@ -6,6 +6,7 @@ import Signup from "./components/Login_And_Signup/Signup";
 import Dashboard from "./components/Dashboard/Dashboard";
 import QuickUse from "./components/QuickUse/QuickUse";
 import QuickUseEditor from "./components/QuickUseEditor/QuickUseEditor";
+import Mainpage from "./components/Mainpage/Mainpage";
 
 function App() {
 
@@ -13,18 +14,19 @@ function App() {
   const [username, setUsername] = useState('');
 
 
-
+//V
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home  />} />
           <Route exact path="/login" element={<Login setLoggedStatus={setLoggedStatus} setUsername={setUsername}/>} />
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/dashboard" element={<Dashboard username={username} />} />
           <Route exact path="/quickUse" element={<QuickUse />} />
           <Route exact path="/quickUseEditor" element={<QuickUseEditor />} />
+          <Route path="/Mainpage" element={ <Mainpage /> } />
         </Routes>
       </BrowserRouter>
     </>

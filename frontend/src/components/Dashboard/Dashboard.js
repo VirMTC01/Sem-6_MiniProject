@@ -1,19 +1,47 @@
 import React from 'react'
+import BACKEND_URL from '../config';
+import { io } from "socket.io-client";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { v4 as uuidV4 } from 'uuid';
 
-function Dashboard(props) {
-    
-  let username = props.username;
+import "./Dashboard.css"
+function Dashboard() {
+  const navigation = useNavigate();
 
+  function handleSocketConnection() { 
+    let username = document.querySelector("#username").value;
+    let roomid = document.querySelector("#roomid").value;
 
+    const socket = io(BACKEND_URL, {
+      query: {
+        username: username,
+        roomid: roomid,
+      } 
+    });
 
+    socket.on("connect", () => {
+      console.log("connected", socket.id);
+      navigation(`/Mainpage?roomid=${roomid}`, {state: { username, roomid }});
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }
 
   return (
     <>
-    <div>Dashboard</div>
-    
-    <p id="user">User : <span>{username}</span></p>
+    <div className="parent_container_quick_use">
+      <label htmlFor="username">Name</label> <input type="text" id="username" /><br />
+      <label htmlFor="roomid">Room ID</label> <input type="text" id="roomid" /><br />
+      <button onClick={() => handleSocketConnection()} id="join-room-button">
+        {" "}
+        Join Room{" "}
+      </button>
+      </div>
     </>
-  )
+  );
 }
 
 export default Dashboard;

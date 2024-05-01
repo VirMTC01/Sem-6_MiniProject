@@ -1,7 +1,7 @@
 import BACKEND_URL from "../config";
 import React, {useState} from "react"
 import axios from "axios"
-import {Link, useNavigate} from "react-router-dom"
+import {Link, NavLink, useNavigate} from "react-router-dom"
 import  "./Login_And_Signup.css";
 
 function Login(props) {
@@ -47,7 +47,11 @@ function Login(props) {
         <div className="login_signup">
             <div>
             <h1>Login</h1>
-            <form action="POST" onSubmit={submit}>
+            {/* <form action="POST" onSubmit={submit}> */} 
+                            {/* change! */}
+
+            <form action="POST" >
+
                 <div className="name_pass">
                 <label htmlFor="username">Username</label>
                 <input id="username" type="text" placeholder="Username" onChange={(e)=> {setUsername(e.target.value); setMsg("")}} required />
@@ -57,7 +61,9 @@ function Login(props) {
                 <input id="password" type="password" placeholder="Password" onChange={(e)=> {setPassword(e.target.value); setMsg("")}} minLength="8"  required />
                 </div>
                 {isError ? <p id="errorMsg">{msg}</p> : <p id="successMsg">{msg}</p>}
-                <button type="submit">Login</button>
+                {/* <button type="submit">Login</button> */} 
+                {/* change! */}
+                <buuton type="SUBMIT"><NavLink to={'/dashboard'}>Login</NavLink></buuton>
             </form>
             <p>Don't have an account ? <Link to="/signup">Signup</Link></p>
             

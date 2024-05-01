@@ -1,4 +1,4 @@
-const express = require("express");
+const express=require('express')  //V
 const app = express();
 const http = require("http");
 const httpServer = http.createServer(app);  
@@ -11,13 +11,15 @@ const PORT = 8000;
 const JUDGE0_API_KEY = "ef617f9a4bmsh2c3fc6f141abf99p14dcfcjsn9346e9656508";                                                                                              
 
 
+
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "https://sem-6-miniproject.onrender.com", // Frontend URL
-    // origin: "http://localhost:3000", // Frontend URL
+    // origin: "https://sem-6-miniproject.onrender.com", // Frontend URL
+    origin: "http://localhost:3000", // Frontend URL
     methods: ["GET", "POST"],
   },
 });
+ 
 
 
 mongoose
@@ -45,19 +47,23 @@ let connectedSockets = [];
 let roomEditorContent = {}; // Store editor content for each room
 
 
+// Inside the connection event handler
 io.on("connection", (socket) => {
   const { username, roomid } = socket.handshake.query;
   console.log({ username, roomid });
-  connectedSockets.push(socket.id);
+  connectedSockets.push({ id: socket.id, username }); // Store the socket ID and username
   console.log("Total Connected Sockets: ", connectedSockets);
 
   socket.join(roomid);
 
   if (!roomEditorContent[roomid]) {
-    roomEditorContent[roomid] = `console.log("Let's code together");\n` ; 
+    roomEditorContent[roomid] = `console.log("Let's code together");\n`;
   }
 
   socket.emit("initialEditorContent", roomEditorContent[roomid]);
+
+  // Emit event to update users list whenever a new user joins
+  io.to(roomid).emit("updateUsersList", connectedSockets.map(socket => socket.username));
 
   socket.on("codeChange", (msg) => {
     roomEditorContent[roomid] = msg;
@@ -65,16 +71,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    connectedSockets = connectedSockets.filter((item) => item !== socket.id);
+    connectedSockets = connectedSockets.filter((item) => item.id !== socket.id);
     console.log("Total Connected Sockets: ", connectedSockets);
+    io.to(roomid).emit("updateUsersList", connectedSockets.map(socket => socket.username)); // Update users list on disconnect
     socket.leave(roomid);
   });
 
-
 });
-
-
-
 
 
 

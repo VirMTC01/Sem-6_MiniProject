@@ -107,7 +107,7 @@ function QuickUseEditor() {
 
   return ( 
     <>
-      <div id="conatiner">
+      <div id="container">
         <div className="quick-use-editor-container">
           <h2 className="editor-title">Welcome to the Editor</h2>
           <div className="editor-options">
