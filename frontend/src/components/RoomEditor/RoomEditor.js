@@ -1,7 +1,7 @@
 import BACKEND_URL from "../config";
 import React, { useState, useRef, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import "../QuickUseEditor/QuickUseEditor.css";
 import axios from "axios";
@@ -21,17 +21,15 @@ const languages = [
 
 const themes = ["vs", "vs-dark", "hc-black", "light", "kimbie-dark"];
 
-
-
-
-function RoomEditor() {
-  const location = useLocation(); 
-  const { username = "Guest", roomid = "Unknown" } = location.state || {};
+function RoomEditor(props) {
+  const navigation = useNavigate();
+  const { state } = useLocation();
+  const { username, password, roomid, content } = state || {};
 
   const [language, setLanguage] = useState("javascript");
   const [theme, setTheme] = useState("vs-dark");
   const [fontSize, setFontSize] = useState(18);
-  const [editorContent, setEditorContent] = useState("");
+  const [editorContent, setEditorContent] = useState(content);
   const [lang, setLang] = useState(63);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
@@ -108,15 +106,7 @@ function RoomEditor() {
     }
   };
 
-
-
-
-
-
-
-
-
-  return (
+  return ( 
     <>
       <div id="conatiner">
         <div className="quick-use-editor-container"> 
@@ -180,7 +170,7 @@ function RoomEditor() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default RoomEditor
+export default RoomEditor;

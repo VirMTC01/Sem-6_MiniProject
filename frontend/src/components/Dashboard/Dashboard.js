@@ -11,7 +11,7 @@ function Dashboard(props) {
   const { username, password } = state || {};
 
   const [roomsData, setRoomsData] = useState([]);
-  const [showForm, setShowForm] = useState(false); // State to control form visibility
+  const [showForm, setShowForm] = useState(false);
   const [roomName, setRoomName] = useState("");
   const [roomDescription, setRoomDescription] = useState("");
 
@@ -47,12 +47,23 @@ function Dashboard(props) {
       console.error("Error deleting room:", error.message);
     }
   };
+
   const handleRoomDisplay = async (roomid) => {
-    navigation('/editor', {state: {username, password, roomid}} );
-  }
+    const response = await axios.get(`${BACKEND_URL}/roomcontent/${username}/${password}/${roomid}`);
+    
+    try {
+      if (response.status === 200) {
+        let content = response.data.content;
+        navigation(`/editor/${roomid}`, { state: { username, password, roomid, content } });
+      }
+    } catch (error) {
+      console.error("Error getting room data:", error.message);
+    }
+  };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    try { 
+    try {
       const response = await axios.post(`${BACKEND_URL}/roomslist/newroom`, {
         username,
         password,
@@ -61,10 +72,10 @@ function Dashboard(props) {
       });
       if (response.status === 201) {
         console.log("Room created:", response.data);
-        getUsersData(); 
+        getUsersData();
         setRoomName("");
-        setRoomDescription(""); 
-        setShowForm(false); 
+        setRoomDescription("");
+        setShowForm(false);
       }
     } catch (error) {
       console.error("Error creating room:", error.message);
@@ -86,10 +97,19 @@ function Dashboard(props) {
         <div id="roomsList">
           {roomsData.length > 0 ? (
             roomsData.map((room, index) => (
-              <div className="rooms" key={index} onClick={() => handleRoomDisplay(room._id)}>
+              <div
+                className="rooms"
+                key={index}
+                onClick={() => handleRoomDisplay(room._id)}
+              >
                 <p>{room.name}</p>
                 <p>{room.description}</p>
-                <button onClick={() => handleRoomDelete(room._id)}>
+                <button
+                  onClick={(event) => {
+                    handleRoomDelete(room._id);
+                    event.stopPropagation();
+                  }}
+                >
                   Delete
                 </button>
               </div>
@@ -103,7 +123,9 @@ function Dashboard(props) {
             src={plus_image}
             alt="Plus"
             id="plus-icon"
-            onClick={() => {setShowForm(!showForm)}}
+            onClick={() => {
+              setShowForm(!showForm);
+            }}
           />
         </div>
 

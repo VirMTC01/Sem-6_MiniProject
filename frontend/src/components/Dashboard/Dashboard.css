@@ -136,7 +136,8 @@ body{
 .form-container button {
   width: 50%;
   padding: 5px 10px;
-  background-color: #007bff;
+  background-color: #2f2f2f;
+  border: 2px solid white;
   color: #ffffff;
   border: none;
   cursor: pointer;

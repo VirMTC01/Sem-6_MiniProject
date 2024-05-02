@@ -225,13 +225,13 @@ const checkStatus = async (token, res) => {
 
 app.post("/roomslist", async (req, res) => {
   let { username, password } = req.body;
- 
+
   try {
     const userData = await UserRooms.findOne({ username, password });
 
     if (userData) {
       const rooms = userData.rooms;
-      console.log(rooms)
+      console.log(rooms);
       res.status(200).json(rooms);
     } else {
       res.status(404).json({ msg: "User not found", isError: true });
@@ -244,73 +244,102 @@ app.post("/roomslist", async (req, res) => {
   }
 });
 
-app.delete('/room/:username/:roomId', async (req, res) => {
+app.delete("/room/:username/:roomId", async (req, res) => {
   const username = req.params.username;
   const roomId = req.params.roomId;
 
-  try { 
-      const user = await UserRooms.findOne({ username });
+  try {
+    const user = await UserRooms.findOne({ username });
 
-      if (!user) {
-          return res.status(404).json('User not found');
-      }
- 
-      const roomIndex = user.rooms.findIndex(room => room._id.toString() === roomId);
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
 
-      if (roomIndex === -1) {
-          return res.status(404).json('Room not found for this user');
-      }
- 
-      user.rooms.splice(roomIndex, 1);
- 
-      await user.save();
+    const roomIndex = user.rooms.findIndex(
+      (room) => room._id.toString() === roomId
+    );
 
-      res.status(200).json('Room deleted successfully');
+    if (roomIndex === -1) {
+      return res.status(404).json("Room not found for this user");
+    }
+
+    user.rooms.splice(roomIndex, 1);
+
+    await user.save();
+
+    res.status(200).json("Room deleted successfully");
   } catch (error) {
-      console.error('Error deleting room:', error);
-      res.status(500).json('Error deleting room');
+    console.error("Error deleting room:", error);
+    res.status(500).json("Error deleting room");
   }
 });
 
- 
- 
-app.post('/roomslist/newroom', async (req, res) => {
-  try { 
+app.post("/roomslist/newroom", async (req, res) => {
+  try {
     const { username, password, name, description } = req.body;
-    console.log("here")
-     if (!username || !password) {
-      return res.status(400).json({ message: 'Username and password are required.' });
+    console.log("here");
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ message: "Username and password are required." });
     }
 
-     const newRoom = {
+    const newRoom = {
       name,
       description,
-      content: `console.log("Let's code together");\n`  
+      content: `console.log("Let's code together");\n`,
     };
 
-     let userRooms = await UserRooms.findOne({ username, password });
+    let userRooms = await UserRooms.findOne({ username, password });
 
-     if (!userRooms) {
+    if (!userRooms) {
       userRooms = new UserRooms({
         username,
         password,
-        rooms: [newRoom]
+        rooms: [newRoom],
       });
     } else {
-       userRooms.rooms.push(newRoom);
+      userRooms.rooms.push(newRoom);
     }
 
-     await userRooms.save();
+    await userRooms.save();
 
-     return res.status(201).json({ message: 'Room created successfully.', room: newRoom });
+    return res
+      .status(201)
+      .json({ message: "Room created successfully.", room: newRoom });
   } catch (error) {
-     console.error('Error creating room:', error);
-    return res.status(500).json({ message: 'Internal server error.' });
+    console.error("Error creating room:", error);
+    return res.status(500).json({ message: "Internal server error." });
   }
 });
+ 
 
 
+app.get("/roomcontent/:user/:password/:id", async (req, res) => {
+  try {
+    const { user, password, id } = req.params;
+    console.log(user, password, id )
+    const userRooms = await UserRooms.findOne({ username: user, password: password });
 
+    if (!userRooms) {
+      return res.status(404).json({ message: 'User not found or invalid credentials' });
+    }
+ 
+    const room = userRooms.rooms.find(room => room._id.toString() === id);
+
+    if (!room) {
+      return res.status(404).json({ message: 'Room not found' });
+    }
+    let roomid = id;
+    if (!roomEditorContent[roomid]) {
+      roomEditorContent[roomid] = room.content;
+    }
+    res.status(200).json({ content: room.content });
+  } catch (error) {
+    console.error('Error fetching room content:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 httpServer.listen(PORT, () =>

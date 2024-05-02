@@ -25,7 +25,7 @@ function App() {
           <Route exact path="/dashboard" element={<Dashboard username={username} />} />
           <Route exact path="/quickUse" element={<QuickUse />} />
           <Route exact path="/quickUseEditor" element={<QuickUseEditor />} />
-          <Route exact path="/editor" component={RoomEditor} />
+          <Route exact path="/editor/:roomid" element={<RoomEditor />} />
         </Routes>
       </BrowserRouter>
     </>
