@@ -12,7 +12,7 @@ function Login(props) {
     const [password, setPassword] = useState('');
     const [msg, setMsg] = useState('');
     const [isError, setIsError] = useState(false);
-    const navigate = useNavigate();
+    const navigation = useNavigate();
     
     async function submit(e){
         e.preventDefault();
@@ -27,8 +27,8 @@ function Login(props) {
                     setMsg(msg1) ; 
                     if(msg1==="User Found"){
                         setLoggedStatus(true);
-                        setUserName(res.data.username)
-                        navigate('/dashboard');  
+                        setUserName(res.data.username) 
+                        navigation('/dashboard', {state: {username, password}} );  
                     }
                 })
                 .catch((e)=>{

@@ -6,10 +6,10 @@ import Signup from "./components/Login_And_Signup/Signup";
 import Dashboard from "./components/Dashboard/Dashboard";
 import QuickUse from "./components/QuickUse/QuickUse";
 import QuickUseEditor from "./components/QuickUseEditor/QuickUseEditor";
+import RoomEditor from "./components/RoomEditor/RoomEditor";
 
 function App() {
-
-  const [loggedStatus, setLoggedStatus] = useState(false);
+  const [loggedStatus, setLoggedStatus] = useState(false)
   const [username, setUsername] = useState('');
 
 
@@ -25,6 +25,7 @@ function App() {
           <Route exact path="/dashboard" element={<Dashboard username={username} />} />
           <Route exact path="/quickUse" element={<QuickUse />} />
           <Route exact path="/quickUseEditor" element={<QuickUseEditor />} />
+          <Route exact path="/editor" component={RoomEditor} />
         </Routes>
       </BrowserRouter>
     </>

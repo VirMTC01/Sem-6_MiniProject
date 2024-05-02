@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 import { useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
-import "./QuickUseEditor.css";
+import "../QuickUseEditor/QuickUseEditor.css";
 import axios from "axios";
 
 const languages = [
@@ -21,7 +21,10 @@ const languages = [
 
 const themes = ["vs", "vs-dark", "hc-black", "light", "kimbie-dark"];
 
-function QuickUseEditor() {
+
+
+
+function RoomEditor() {
   const location = useLocation(); 
   const { username = "Guest", roomid = "Unknown" } = location.state || {};
 
@@ -105,7 +108,15 @@ function QuickUseEditor() {
     }
   };
 
-  return ( 
+
+
+
+
+
+
+
+
+  return (
     <>
       <div id="conatiner">
         <div className="quick-use-editor-container"> 
@@ -169,7 +180,7 @@ function QuickUseEditor() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default QuickUseEditor;
+export default RoomEditor
