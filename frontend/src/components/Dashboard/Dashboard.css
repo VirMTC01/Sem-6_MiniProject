@@ -1,0 +1,152 @@
+@import url("https://fonts.googleapis.com/css2?family=Jersey+15&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+ 
+body{
+  margin:0;
+  
+}
+
+#dashboard_container {
+  background-color: #111111;
+  color: #fff;
+  height: 95vh;
+  margin: 0;
+  padding: 1.5em 3em;
+  z-index: 10;
+}
+
+#heading {
+  font-size: 4em;
+  font-family: "Jersey 15", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0; 
+}
+
+#user {
+  font-size: 1.75em;
+  padding: 0.5em 0 1em;
+  border-top: 3px white solid;
+  text-align: right;
+
+}
+
+#info {
+  color: grey;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 1.25em;
+  margin: 0.25em 0 0.5em ;
+}
+
+#roomsListHeading{
+  font-size: 1.75em;
+  font-weight: 600;
+  margin: 0.5em 0;
+}
+
+
+#roomsList{
+  display: flex; 
+  align-items: center;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 0.25em;
+  min-height: 150px;
+}
+
+.rooms{
+  position: relative;
+  width: 300px;
+  height: 130px;
+  padding: 0.5em;
+  margin: 1em;
+  border: 3px solid rgb(53, 53, 53);
+  border-radius: 5px;
+  transition: all 0.35s ease; 
+  color: rgb(134, 134, 134);
+}
+.rooms p{  
+  padding: 0.25em 0.25em 0em;
+  margin-bottom: 0;
+}
+.rooms p:nth-child(1){
+  color: rgb(240, 240, 240);
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 1.5em;
+  margin: 0;
+  padding: 0.25em 0.25em 0em;
+}
+
+.rooms button{
+  position: relative;
+  padding: 0.25em 0.5em;
+  font-size: 1em;  
+  transition: all 0.35s ease; 
+  display: flex; 
+  top: 10px;
+  left: 220px;
+}
+.rooms button:hover{
+ cursor: pointer;
+ transform: scale(1.1);
+}
+
+.rooms:hover{
+  transform: scale(1.075);
+  cursor: pointer;
+  box-shadow:  0px 0px 15px rgb(61, 61, 61);
+}
+
+#roomsList img{
+  width: 50px; 
+  height: 50px; 
+  margin-left: 0.5em;
+  transition: all 0.35s ease; 
+  position: relative;
+}
+
+#roomsList img:hover{
+  transform: scale(1.25);
+  cursor: pointer;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+  margin: 10px;
+  position: absolute; 
+  background-color: #484848;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+}
+
+/* Style for form inputs */
+.form-container input {
+  margin-bottom: 10px;
+  width: 70% !important;  
+  padding: 5px;
+}
+
+/* Style for form button */
+.form-container button {
+  width: 50%;
+  padding: 5px 10px;
+  background-color: #2f2f2f;
+  border: 2px solid white;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Hover effect for the plus icon */
+#plus-icon:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+ 
