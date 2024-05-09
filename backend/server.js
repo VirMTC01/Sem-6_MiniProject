@@ -341,6 +341,18 @@ app.get("/roomcontent/:user/:password/:id", async (req, res) => {
   }
 });
 
+app.get("/roomcontent/:user/:password/:id", async (req, res) => {
+  try {
+    const { user, password, id } = req.params;
+    const content = req.body.content;
+
+    
+  } 
+  catch{
+
+  }
+}
+);
 
 httpServer.listen(PORT, () =>
   console.log(`Server is listening on port number ${PORT}.`)

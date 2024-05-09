@@ -5,17 +5,26 @@ import { Link } from 'react-router-dom';
 
 function Home() {
     return (
-        <div className="parent_container">
-
-        <div className='container'>
-            <p className='heading'>What would you like to do ?</p>
-            <Link to="/login" className='link'>Login</Link> / 
-            <Link to="/signUp" className='link'>Sign Up</Link><br />
-            <Link to="/quickUse" className='link'>Quick Use</Link>
+        <div class="parent_container">
+        <div class='container'>
+            <p class='heading'>Welcome </p>
+            <div class="links-container">
+                <div class="link-item">
+                    <p>Click here to <Link to="/login" class='link'>Login</Link></p>
+                </div>
+    
+                <div class="link-item signup-container">
+                    <p>Create an Account</p>
+                    <Link to="/signUp" class='link'>Sign Up</Link><br />
+                </div>
+                <div class="link-item quickuse-container">
+                    <p>Click here for <Link to="/quickUse" class='link'>Quick Use</Link></p>
+                </div>
+            </div>
         </div>
-        
-        </div>
+    </div>
     );
+    
 }
 
 export default Home;

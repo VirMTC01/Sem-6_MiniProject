@@ -1,0 +1,105 @@
+
+*{
+    margin: 0;
+    padding: 0%;
+    overflow-x: hidden;overflow-y: hidden;
+}
+
+    #container{
+    /* background-color: blue; */
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    font-size: large;
+    background-color: rgb(64, 64, 64);
+    color: azure;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+header{
+    height: auto;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    font-weight: bolder;
+}
+.nav{
+    /* background-color: bisque; */
+    border-bottom: 1px solid grey;
+}
+#h1{
+   display: flex;
+   justify-content: center;
+   color: antiquewhite;
+}
+#h2{
+    display: flex;
+    /* justify-content: space-evenly; */
+    /* background-color: blueviolet; */
+   padding: 10px;
+   height: 6vh;
+}
+#users{
+    /* background-color: rgb(225, 26, 12); */
+    height: 100%;
+    width: 30%;
+    margin-left: 15%;
+    display: flex;
+    justify-content: space-evenly;
+}
+#h3{
+    display: flex;
+    /* justify-content: space-evenly; */
+    padding: 5px;
+}
+#functions{
+    display: flex;
+    margin-left: 10%;
+    /* padding: 5px; */
+}
+#functions > div {
+    margin-left: 15px;
+}
+#main{
+    display: flex;
+    /* background-color: aquamarine; */
+}
+#Left{
+    height: 86vh;
+    width: 70vw;
+    /* background-color: rgb(231, 216, 12); */
+}
+#Right{
+    height: 86vh;
+    width: 30vw;
+    /* background-color: rgb(184, 11, 77); */
+    border-left: 5px solid rgb(5, 1, 25);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 120%;
+    
+}
+textarea{
+    font-size: 120%;
+    
+}
+#Compile_btn{
+    height: 5vh;
+    width: 8vw;
+    background-color: black;
+    color: rgb(210, 234, 234);
+    font-family: cursive;
+    padding: 5px;
+}
+
+#output_box{
+    height: 50%;
+    width: 100%;
+    background-color: #3c3b3b;
+}
+#input_box{
+    background-color: #9e9999;
+}

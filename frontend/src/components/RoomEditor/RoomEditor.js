@@ -4,22 +4,47 @@ import { Editor } from "@monaco-editor/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import "../QuickUseEditor/QuickUseEditor.css";
+import "./RoomEditor.css"
 import axios from "axios";
 
 const languages = [
-  "javascript",
-  "typescript",
-  "python",
-  "html",
-  "css",
-  "java",
-  "c",
-  "cpp",
-  "json",
-  "markdown",
+  {
+    id: 48,
+    name: "C",
+  },
+  {
+    id: 52,
+    name: "C++",
+  },
+  {
+    id: 51,
+    name: "C#",
+  },
+  {
+    id: 63,
+    name: "JavaScript",
+  },
+  {
+    id: 70,
+    name: "Python",
+  },
+  {
+    id: 72,
+    name: "Ruby",
+  },
+  {
+    id: 73,
+    name: "Rust",
+  },
 ];
 
-const themes = ["vs", "vs-dark", "hc-black", "light", "kimbie-dark"];
+const themes = [
+  { name: "vs", value: 'rgb(255,255,254)' },
+  { name: "vs-dark", value: 'rgb(30,30,30)' },
+  { name: "hc-black", value: 'rgb(0,0,0)' },
+  { name: "light", value: 'rgb(255,255,255)' },
+];
+
 
 function RoomEditor(props) {
   const navigation = useNavigate();
@@ -33,7 +58,7 @@ function RoomEditor(props) {
   const [lang, setLang] = useState(63);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
-
+  const [users, setUsers] = useState([]);
  
   const editorRef = useRef(null);
   const socketRef = useRef(null);
@@ -49,15 +74,22 @@ function RoomEditor(props) {
       setEditorContent(content);
     });
 
+    socketRef.current.on("updateUsersList", (usersList) => {
+      setUsers(usersList);
+    });
+
     return () => {
       socketRef.current.disconnect();
+      axios.post(`${BACKEND_URL}/roomcontent/${username}/${password}/${roomid}`, {content: editorContent})
+      .then((data)=> console.log(data))
     };
   }, [username, roomid]);
 
   const handleLanguageChange = (event) => {
-    setLanguage(event.target.value);
+    setLang(event.target.value); 
   };
 
+  
   const handleThemeChange = (event) => {
     setTheme(event.target.value);
   };
@@ -80,6 +112,7 @@ function RoomEditor(props) {
     setInput(event.target.value);  
   };
 
+    
   const handleSubmit = async () => { 
     const response = await axios.post(`${BACKEND_URL}/compile`, {
       editorContent,
@@ -108,46 +141,60 @@ function RoomEditor(props) {
 
   return ( 
     <>
-      <div id="conatiner">
-        <div className="quick-use-editor-container"> 
-          <div className="editor-options">
-            <div className="editor-option">
-              <label htmlFor="language">Language:</label>
-              <select
-                id="language"
-                value={language}
-                onChange={handleLanguageChange}
-              >
-                {languages.map((lang, index) => (
-                  <option key={index} value={lang}>
-                    {lang}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="editor-option">
-              <label htmlFor="theme">Theme:</label>
-              <select id="theme" value={theme} onChange={handleThemeChange}>
-                {themes.map((theme, index) => (
-                  <option key={index} value={theme}>
-                    {theme}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="editor-option">
-              <label htmlFor="fontSize">Font Size:</label>
-              <input
-                type="number"
-                id="fontSize"
-                value={fontSize}
-                onChange={handleFontSizeChange}
-                min="8"
-                max="24"
-              />
+      <div id="container">
+        <header>
+          <div className="nav" id="h2">
+            <span>Users Connected:</span> 
+            <div id="users">
+              {users.map((user, index) => (
+                <div key={index}>{user}</div>
+              ))}
             </div>
           </div>
-          <div className="custom-editor">
+          <div className="nav" id="h3">Functions :
+            <div id="functions">
+              <div id="f1">Language:
+                <select
+                  id="language"
+                  value={lang}
+                  onChange={handleLanguageChange}
+                >
+                  {languages.map((lang) => (
+                    <option key={lang.id} value={lang.id}>
+                      {lang.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div id="f2">Theme:
+                <select
+                  id="theme"
+                  value={theme}
+                  onChange={handleThemeChange}
+                >
+                  {themes.map((theme, index) => (
+                    <option key={index} value={theme.name}>
+                      {theme.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div id="f3">Font Size:
+                <input
+                  type="number"
+                  id="fontSize"
+                  value={fontSize}
+                  onChange={handleFontSizeChange}
+                  min="8"
+                  max="24"
+                />
+              </div>
+            </div>
+          </div>
+        </header>
+        <div id="main">
+          <div id="Left">
+            Program:
             <Editor
               language={language}
               theme={theme}
@@ -160,13 +207,27 @@ function RoomEditor(props) {
               onChange={handleCodeChange}
             />
           </div>
- 
-        </div>
-
-        <div id="compilation_section"> 
-          <div><h2>Input :-</h2> <textarea rows={10} cols={75} value={input} onChange={handleInputForCompilationChange} /> </div>
-          <div> <button onClick={handleSubmit}>Compile</button> </div>
-          <div> <h2>Output :-</h2> <div id="output_box">{output}</div> </div> 
+          <div id="Right">
+            <div>Input:
+              <textarea
+                rows={8}
+                cols={75}
+                value={input}
+                id="input_box"
+                className="input-output"
+                onChange={handleInputForCompilationChange}
+              />
+            </div>
+            Output:
+            <div id="output_box" className="input-output">
+               {output}
+            </div>
+            <div id="SET">
+              <button onClick={handleSubmit} id="Compile_btn">Compile</button>
+              <p>Visibilty<button>ALL</button></p>
+              <p><label></label></p>
+            </div>
+          </div>
         </div>
       </div>
     </>
